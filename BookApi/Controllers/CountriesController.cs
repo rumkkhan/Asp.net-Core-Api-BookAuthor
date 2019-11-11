@@ -26,15 +26,55 @@ namespace BookApi.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var countryDto = new List<CountryDto>();
+            var countriesDto = new List<CountryDto>();
             foreach (var country in countries)
             {
-                countryDto.Add(new CountryDto
+                countriesDto.Add(new CountryDto
                 {
                     Id = country.Id,
                     Name = country.Name
                 }) ;
             }
+
+            return Ok(countriesDto);
+        }
+
+        [HttpGet("{countryId}")]
+        public IActionResult GetCountry(int countryId)
+        {
+
+            if (!_countryRepository.CountryExists(countryId))
+                return NotFound(); 
+            var country = _countryRepository.GetCountry(countryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var countryDto = new CountryDto()
+            {
+                Id = country.Id,
+                Name = country.Name
+            };
+          
+
+            return Ok(countryDto);
+        }
+
+        //api/controlelr/auther/authorid
+        [HttpGet("author/{autherId}")]
+        public IActionResult GetCountryOfAuthor(int autherId)
+        {
+
+            //validate the author exists
+            var country = _countryRepository.GetCountryOfAuthor(autherId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var countryDto = new CountryDto()
+            {
+                Id = country.Id,
+                Name = country.Name
+            };
+
 
             return Ok(countryDto);
         }
