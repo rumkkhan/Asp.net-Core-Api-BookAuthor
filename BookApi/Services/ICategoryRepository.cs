@@ -10,7 +10,7 @@ namespace BookApi.Services
     {
         ICollection<Category> GetCategories();
         Category GetCategory(int categoryId);
-        ICollection<Category> GetCategoriesForABook(int bookId);
+        ICollection<Category> GetAllCategoriesForABook(int bookId);
         ICollection<Book> GetAllBooksForCategory(int categoryId);
         bool CategoryExists(int categoryId);
     }

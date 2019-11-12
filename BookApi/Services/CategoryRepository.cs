@@ -8,29 +8,34 @@ namespace BookApi.Services
 {
     public class CategoryRepository : ICategoryRepository
     {
+        private readonly BookDbContext _categoryContext;
+        public CategoryRepository(BookDbContext categoryContext)
+        {
+            _categoryContext = categoryContext;
+        }
         public bool CategoryExists(int categoryId)
         {
-            throw new NotImplementedException();
+           return _categoryContext.Categorys.Any(c => c.Id == categoryId);
         }
 
         public ICollection<Book> GetAllBooksForCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            return _categoryContext.BookCategories.Where(c => c.CategoryId == categoryId).Select(b => b.Book).ToList();
         }
 
         public ICollection<Category> GetCategories()
         {
-            throw new NotImplementedException();
+            return _categoryContext.Categorys.OrderBy(c => c.Name).ToList();
         }
 
-        public ICollection<Category> GetCategoriesForABook(int bookId) 
+        public ICollection<Category> GetAllCategoriesForABook(int bookId) 
         {
-            throw new NotImplementedException();
+            return _categoryContext.BookCategories.Where(b => b .BookId == bookId).Select(c => c.Category).ToList();
         }
 
         public Category GetCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            return _categoryContext.Categorys.Where(c => c.Id == categoryId).FirstOrDefault();
         }
     }
 }
