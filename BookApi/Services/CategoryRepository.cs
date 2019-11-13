@@ -37,5 +37,11 @@ namespace BookApi.Services
         {
             return _categoryContext.Categorys.Where(c => c.Id == categoryId).FirstOrDefault();
         }
+
+        public bool IsDuplicateCategoryName(int categoryId, string categoryName)
+        {
+            var category = _categoryContext.Categorys.Where(c => c.Name.Trim().ToUpper() == categoryName.Trim().ToUpper() && c.Id != categoryId);
+            return category == null ? false : true;
+        }
     }
 }
