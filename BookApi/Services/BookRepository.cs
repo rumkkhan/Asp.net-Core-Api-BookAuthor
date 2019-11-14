@@ -54,7 +54,7 @@ namespace BookApi.Services
 
         }
 
-        public bool IsDuplicateIsbn(int bookId, string bookIsbn)
+        public bool IsDuplicateIsbn(int bookId, string bookIsbn) 
         {
              var book =_bookDbContext.Books.Where(b => b.Isbn.Trim().ToUpper() == bookIsbn.Trim().ToUpper() && b.Id != bookId);
             return book == null ? false : true;
