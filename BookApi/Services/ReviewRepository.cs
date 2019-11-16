@@ -14,6 +14,19 @@ namespace BookApi.Services
         {
             _reivewDbContext = bookDbContext;
         }
+
+        public bool CreateReview(Review review)
+        {
+            _reivewDbContext.Add(review);
+            return Save();
+        }
+
+        public bool DeleteReview(Review review)
+        {
+            _reivewDbContext.Remove(review);
+            return Save();
+        }
+
         public Book GetBookOfAReview(int reviewId)
         {
             var bookId = _reivewDbContext.Reviews.Where(r => r.Id == reviewId).Select(b => b.Book.Id).FirstOrDefault();
@@ -38,6 +51,18 @@ namespace BookApi.Services
         public bool ReviewExists(int reviewId)
         {
             return _reivewDbContext.Reviews.Any(r => r.Id == reviewId);
+        }
+
+        public bool Save()
+        {
+           var saved =  _reivewDbContext.SaveChanges();
+            return saved >= 0 ? true : false;
+        }
+
+        public bool UpdateReview(Review review)
+        {
+            _reivewDbContext.Update(review);
+            return Save();
         }
     }
 }

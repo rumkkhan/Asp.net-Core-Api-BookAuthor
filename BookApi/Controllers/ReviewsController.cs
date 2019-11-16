@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookApi.Dtos;
+using BookApi.Models;
 using BookApi.Services.interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,8 @@ namespace BookApi.Controllers
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IBookRepository _bookRepository;
+        private readonly IReviewerRepository _reviewerRepository;
 
         public ReviewsController(IReviewRepository reviewRepository)
         {
@@ -43,7 +46,7 @@ namespace BookApi.Controllers
         }
 
         //api/reviews/1
-        [HttpGet("{reviewId}")]
+        [HttpGet("{reviewId}",Name = "GetReview")]
         public IActionResult GetReview(int reviewId)
         {
             if (!_reviewRepository.ReviewExists(reviewId))
@@ -97,5 +100,38 @@ namespace BookApi.Controllers
 
             return Ok(bookDto);
         }
+        //api/review/
+        [HttpPost]
+        [ProducesResponseType(422)]
+        public IActionResult CreateReview([FromBody]Review reviewCreate)
+        {
+            if (reviewCreate == null)
+                return BadRequest(ModelState);
+
+            if (!_reviewerRepository.ReviewerExists(reviewCreate.Reviewer.Id))
+                ModelState.AddModelError("", "Reviewer doesn't exist");
+
+            if (!_bookRepository.BookExists(reviewCreate.Book.Id))
+                ModelState.AddModelError("", "Book doesn't exist");
+
+            if (!ModelState.IsValid)
+                return  StatusCode(404,ModelState);
+
+
+            reviewCreate.Reviewer = _reviewerRepository.GetReviewer(reviewCreate.Reviewer.Id);
+            reviewCreate.Book = _bookRepository.GetBook(reviewCreate.Reviewer.Id);
+
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reviewRepository.CreateReview(reviewCreate))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving {reviewCreate.Reviewer}");
+                return StatusCode(500, ModelState);
+            }
+            return CreatedAtRoute("GetReview", new { reviewId = reviewCreate.Id }, reviewCreate); 
+        }
+
     }
 }

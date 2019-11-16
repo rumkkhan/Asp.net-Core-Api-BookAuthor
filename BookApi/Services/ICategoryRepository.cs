@@ -14,5 +14,11 @@ namespace BookApi.Services
         ICollection<Book> GetAllBooksForCategory(int categoryId); 
         bool CategoryExists(int categoryId);
         bool IsDuplicateCategoryName(int categoryId, string categoryName);
+
+        //post 
+        bool CreateCategory(Category category);
+        bool UpdateCategory(Category category);
+        bool DeleteCategory(Category category);
+        bool Save();
     }
 }

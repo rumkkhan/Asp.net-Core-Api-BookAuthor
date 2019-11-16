@@ -13,5 +13,12 @@ namespace BookApi.Services.interfaces
         ICollection<Review> GetReviewsByReviewer(int reviewer);
         Reviewer GetReviewerOfAReview(int reviewId);
         bool ReviewerExists(int reviewerId);
+
+
+        ////post 
+        //bool CreateReview(Review review);
+        //bool UpdateReview(Review review);
+        //bool DeleteReview(Review review);
+        //bool Save();
     }
 }
