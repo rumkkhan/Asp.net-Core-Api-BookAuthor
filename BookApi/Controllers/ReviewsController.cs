@@ -20,7 +20,7 @@ namespace BookApi.Controllers
 
         public ReviewsController(IReviewRepository reviewRepository)
         {
-            _reviewRepository = reviewRepository;
+            _reviewRepository = reviewRepository; 
         }
 
         //api/reviews
