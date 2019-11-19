@@ -18,9 +18,11 @@ namespace BookApi.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IReviewerRepository _reviewerRepository;
 
-        public ReviewsController(IReviewRepository reviewRepository)
+        public ReviewsController(IReviewRepository reviewRepository, IBookRepository bookRepository, IReviewerRepository reviewerRepository)
         {
-            _reviewRepository = reviewRepository; 
+            _reviewRepository = reviewRepository;
+            _bookRepository = bookRepository;
+            _reviewerRepository = reviewerRepository;
         }
          
         //api/reviews
@@ -132,6 +134,65 @@ namespace BookApi.Controllers
             }
             return CreatedAtRoute("GetReview", new { reviewId = reviewCreate.Id }, reviewCreate); 
         }
- 
+        //api/review/
+        [HttpPut("{reviewId}")]
+        [ProducesResponseType(422)]
+        public IActionResult  UpdateReview(int reviewId, [FromBody]Review reviewToUpdate)
+        {
+            if (reviewToUpdate == null)
+                return BadRequest(ModelState);
+            if (reviewId != reviewToUpdate.Id)
+                return BadRequest(ModelState);
+
+            if (!_reviewerRepository.ReviewerExists(reviewToUpdate.Reviewer.Id))
+                ModelState.AddModelError("", "Review doesn't exist");
+
+            if (!_bookRepository.BookExists(reviewToUpdate.Book.Id))
+                ModelState.AddModelError("", "Book doesn't exist");
+
+            if (!ModelState.IsValid)
+                return StatusCode(404, ModelState);
+
+
+            reviewToUpdate.Reviewer = _reviewerRepository.GetReviewer(reviewToUpdate.Reviewer.Id);
+            reviewToUpdate.Book = _bookRepository.GetBook(reviewToUpdate.Reviewer.Id);
+
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reviewRepository.UpdateReview(reviewToUpdate))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving {reviewToUpdate.Reviewer}");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
+        //api/review/
+        [HttpPut("{reviewId}")]
+        [ProducesResponseType(422)]
+        public IActionResult DeleteReview(int reviewId)
+        {
+            if (_reviewRepository.ReviewExists(reviewId))
+                return NotFound();
+
+            var reviewToDelete = _reviewRepository.GetReview(reviewId);
+            if(reviewToDelete == null)
+
+            if (!ModelState.IsValid)
+                return StatusCode(404, ModelState);
+
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reviewRepository.DeleteReview(reviewToDelete))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving review");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
+
     }
 }

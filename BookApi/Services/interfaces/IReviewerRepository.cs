@@ -16,9 +16,11 @@ namespace BookApi.Services.interfaces
 
 
         ////post 
-        //bool CreateReview(Review review);
-        //bool UpdateReview(Review review);
-        //bool DeleteReview(Review review);
-        //bool Save();
+        bool CreateReviewer(Reviewer reviewer);
+        bool UpdateReviewer(Reviewer reviewer);
+        bool DeleteReviewer(Reviewer reviewer);
+       
+
+        bool Save();
     }
 }

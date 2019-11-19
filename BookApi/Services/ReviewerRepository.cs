@@ -40,5 +40,31 @@ namespace BookApi.Services
         {
             return _reviewerDbContext.Reviewers.Any(r => r.Id == reviewerId);
         }
+
+        public bool CreateReviewer(Reviewer reviewer)
+        {
+            _reviewerDbContext.Add(reviewer);
+            return Save();
+        }
+
+        public bool UpdateReviewer(Reviewer reviewer)
+        {
+            _reviewerDbContext.Update(reviewer);
+            return Save();
+        }
+
+        public bool DeleteReviewer(Reviewer reviewer)
+        {
+            _reviewerDbContext.Remove(reviewer);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _reviewerDbContext.SaveChanges();
+            return saved >= 0 ? true : false;
+        }
+
+       
     }
 }
