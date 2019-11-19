@@ -164,6 +164,8 @@ namespace BookApi.Controllers
                 ModelState.AddModelError("", $"Something went wrong saving reviews to delte");
                 return StatusCode(500, ModelState); 
             }
+
+            return Ok();
         }
     }
 }
