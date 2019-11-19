@@ -162,7 +162,7 @@ namespace BookApi.Controllers
             if (!_reviewRepository.DeleteReviews(reviewesToDelete.ToList()))
             {
                 ModelState.AddModelError("", $"Something went wrong saving reviews to delte");
-                return StatusCode(500, ModelState);
+                return StatusCode(500, ModelState); 
             }
         }
     }
