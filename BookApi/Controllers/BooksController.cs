@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookApi.Dtos;
+using BookApi.Models;
 using BookApi.Services;
 using BookApi.Services.interfaces;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +17,15 @@ namespace BookApi.Controllers
     {
 
         private readonly IBookRepository _bookDbContext;
+        private readonly IEmployee _employee;
 
-        public BooksController(IBookRepository bookDbContext)
+        public BooksController(IBookRepository bookDbContext, IEmployee employee)
         {
             _bookDbContext = bookDbContext;
+            _employee = employee;
         }
 
-        //api/books
+        //api/books 
         [HttpGet]
         public IActionResult GetBooks()
         {
@@ -79,6 +82,39 @@ namespace BookApi.Controllers
                 return BadRequest(ModelState);
 
             return Ok(rating);
+        }
+        //api/books/bookIs
+        [HttpPost]
+        public async Task<IActionResult> AddData()
+        {
+            var personCount = 99999;
+            var personList = new List<Employee>();
+            
+
+            for (int i = 1; i < personCount; i++)
+            {
+                personList.Add(new Employee
+                {
+                     Id = i,
+                     Company = "IT"+ i,
+                     Name   = "Ramzan"+ i+ 1,
+                     Designation = "Software engineer",
+                     a = "aaaaaaaaaaaaaaaaaaaaaa",
+                     b ="asdfasdfa",
+                     c = "asdfasdf",
+                     d = "aee",
+                     e = "adfadfv",
+                     f = "aa",
+                     g = "adfasdfasdf",
+                     h = "asdfaf",
+                     i = "eedd",
+                     j = "asdfe"
+                     
+,
+                });
+             }
+            bool result = await _employee.save(personList);
+            return Ok(result);
         }
     }
 }

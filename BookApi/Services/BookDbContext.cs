@@ -22,7 +22,7 @@ namespace BookApi.Services
         public virtual DbSet<Category> Categorys { get; set; }
         public virtual DbSet<BookAuthor> BookAuthors { get; set; }
         public virtual DbSet<BookCategory> BookCategories { get; set; }
-
+        public virtual DbSet<Employee> Employees { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookCategory>()

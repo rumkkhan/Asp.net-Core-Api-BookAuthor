@@ -29,6 +29,7 @@ namespace BookApi.Services
 
          public bool DeleteReviews(List<Review> reviews)
             {
+            
                 _reivewDbContext.RemoveRange(reviews);
                 return Save();
 

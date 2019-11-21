@@ -39,6 +39,8 @@ namespace BookApi
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IEmployee, EmployeeService>();
+
 
 
 

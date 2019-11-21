@@ -3,15 +3,17 @@ using System;
 using BookApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BookApi.Migrations
 {
     [DbContext(typeof(BookDbContext))]
-    partial class BookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191120190412_addemployee")]
+    partial class addemployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,36 +151,6 @@ namespace BookApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("a")
-                        .HasColumnType("text");
-
-                    b.Property<string>("b")
-                        .HasColumnType("text");
-
-                    b.Property<string>("c")
-                        .HasColumnType("text");
-
-                    b.Property<string>("d")
-                        .HasColumnType("text");
-
-                    b.Property<string>("e")
-                        .HasColumnType("text");
-
-                    b.Property<string>("f")
-                        .HasColumnType("text");
-
-                    b.Property<string>("g")
-                        .HasColumnType("text");
-
-                    b.Property<string>("h")
-                        .HasColumnType("text");
-
-                    b.Property<string>("i")
-                        .HasColumnType("text");
-
-                    b.Property<string>("j")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
