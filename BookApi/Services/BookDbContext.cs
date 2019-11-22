@@ -12,7 +12,7 @@ namespace BookApi.Services
         public BookDbContext(DbContextOptions<BookDbContext> options) : base(options)
         {
             Database.Migrate();
-        }
+        } 
 
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Author> Authors { get; set; }
