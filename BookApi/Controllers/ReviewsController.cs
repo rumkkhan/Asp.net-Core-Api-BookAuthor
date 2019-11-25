@@ -25,7 +25,7 @@ namespace BookApi.Controllers
             _reviewerRepository = reviewerRepository;
         }
          
-        //api/reviews
+        //api/reviews  
         [HttpGet]
         public IActionResult GetReviews()
         {
