@@ -31,7 +31,7 @@ namespace BookApi.Controllers
         {
             var reviews =  _reviewRepository.GetReviews();
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(ModelState); 
 
             var reviewDto = new List<ReviewDto>();
             foreach (var review in reviews)
